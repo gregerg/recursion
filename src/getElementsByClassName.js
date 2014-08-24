@@ -5,17 +5,14 @@
 
 // But instead we're going to implement it from scratch:
 var getElementsByClassName = function(className, element){
-  // your code here
   // default element is body
   element = typeof element !== 'undefined' ? element : document.body;
   
-  // initialize HTMLCollection
+  // initialize HTMLCollection to be returned
   var output = $.makeArray();
   
-  var isUndefined = (typeof element === 'undefined');
-  var isText = (element.toString() === '[object Text]');
-  // ignore text nodes and undefined
-  if (!isUndefined && !isText) {
+  // ignore text nodes
+  if (element.toString() !== '[object Text]') {
     // check/add current element to HTMLCollection
     if(element.classList.contains(className)) {
       output.push(element);
@@ -29,12 +26,11 @@ var getElementsByClassName = function(className, element){
         childOut = getElementsByClassName(className, item);
         // add to output if recursion yielded anything
         if (childOut.length > 0) {
-          [].forEach.call(childOut, function(child) {
-            output.push(child);
-          });
+          [].forEach.call(childOut, function(child) { output.push(child); });
         }
       });
     }
+    
   }
   
   return output;
